@@ -3,30 +3,36 @@
     <div id="main">
       <h2>新用户注册</h2>
       <el-form class="form" ref="form" :rules="rules" :model="form" label-width="80px">
-        <el-form-item label="用户名" prop="userName">
-          <el-input v-model="form.userName" type="text"></el-input>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="form.username" type="text"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" type="password"></el-input>
+          <el-input v-model="form.password" :key="passwordType" :type="passwordType" ref="password"/>
+          <span class="show-pwd" @click="showPwd">
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+        </span>
         </el-form-item>
         <el-form-item label="确认密码" prop="repassword">
-          <el-input v-model="form.repassword" type="password"></el-input>
+          <el-input v-model="form.repassword" :key="passwordType" :type="passwordType" ref="password"/>
+          <span class="show-pwd" @click="showPwd">
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+        </span>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" type="text"></el-input>
         </el-form-item>
-        <el-form-item label="身份证号" prop="idCard">
-          <el-input v-model="form.idCard" type="text"></el-input>
+        <el-form-item label="身份证号" prop="idNumber">
+          <el-input v-model="form.idNumber" type="text"></el-input>
         </el-form-item>
-        <el-form-item label="电话号" prop="phone">
-          <el-input v-model="form.phone" type="number"></el-input>
+        <el-form-item label="电话号" prop="phoneNumber">
+          <el-input v-model="form.phoneNumber" type="number"></el-input>
         </el-form-item>
         <el-form-item label="邮箱">
           <el-input v-model="form.email" type="email"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
-          <el-button>取消</el-button>
+          <el-button type="primary" @click="onSubmit">立即注册</el-button>
+          <el-button @click="onReturn">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -34,6 +40,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "register",
   data() {
@@ -57,16 +64,18 @@ export default {
       }
     }
     return {
+      passwordType: 'password',
       form: {
-        userName: '',
+        username: '',
         password: '',
         name: '',
-        idCard: '',
-        phone: '',
-        email: ''
+        idNumber: '',
+        phoneNumber: '',
+        email: '',
+        repassword: ''
       },
       rules: {
-        userName: [
+        username: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
           {min: 5, max: 15, message: '长度在 5 到 15 个字符', trigger: 'blur'}
         ],
@@ -79,7 +88,7 @@ export default {
         name: [
           {required: true, message: '请输入姓名', trigger: 'blur'},
         ],
-        idCard: [
+        idNumber: [
           { required: true, message: '请填写证件号码', trigger: 'blur' },
           {
             pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
@@ -87,15 +96,53 @@ export default {
             trigger: 'blur'
           }
         ],
-        phone: [
+        phoneNumber: [
           {required: true, trigger: 'blur', validator: checkPhone}
         ]
       }
     }
   },
   methods: {
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
+    },
     onSubmit() {
-      console.log('submit!');
+      this.$refs.form.validate(valid => {
+        if(valid) {
+          axios({
+            url: 'http://localhost:9001/user/register',
+            method: 'post',
+            data: this.form
+          }).then(response => {
+            if(response.data.code === 20000) {
+              this.$message({
+                message: '恭喜你注册成功!',
+                type: 'success'
+              });
+              this.$router.replace({path: '/login'})
+            }else {
+              this.$message.error('用户名已注册，请重新注册或登录');
+              this.form.email = '';
+              this.form.username = '';
+              this.form.password = '';
+              this.form.name = '';
+              this.form.idNumber = '';
+              this.form.phoneNumber = '';
+              this.form.repassword = '';
+            }
+          })
+        }
+      })
+    },
+    onReturn() {
+      this.$router.replace({path: '/login'})
     }
   }
 }
@@ -126,15 +173,27 @@ $cursor: #fff;
 
 h2 {
   text-align: center;
-  //color: #409EFF;
   margin-bottom: 10px;
 }
 
 .el-textarea__inner, .el-input__inner {
-  background: transparent;
+  background-color: transparent;
+  color: #D0D0F0;
+}
+.el-input {
+  display: inline-block;
+  height: 47px;
+  width: 85%;
 }
 
 .el-form-item__label {
   color: #303133;
+}
+
+.show-pwd {
+  font-size: 16px;
+  color: #889aa4;
+  cursor: pointer;
+  user-select: none;
 }
 </style>

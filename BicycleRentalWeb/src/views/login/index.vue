@@ -184,16 +184,14 @@ $dark_gray: #889aa4;
 $light_gray: #eee;
 
 .login-container {
-  //min-height: 100%;
-  //width: 100%;
   //background-color: $bg;
-  //overflow: hidden;
   width: 100%;
   height: 100%;
   background-image: url("../../assets/login_image/login_bg.jpg");
   background-size: cover;
   background-position: center;
   position: relative;
+  overflow: hidden;
 
   .login-form {
     position: relative;
