@@ -30,8 +30,6 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-
-// 普通路由 全部成员都可以访问
 export const constantRoutes = [
   {
     path: '/login',
@@ -64,47 +62,10 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', roles: ['user'], icon: 'dashboard' }
     }]
   },
 
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   name: 'Example',
-  //   meta: { title: '个人中心', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'personInfo',
-  //       name: 'personInfo',
-  //       component: () => import('@/views/personInfo/index'),
-  //       meta: { title: '修改个人信息', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-  //
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
-]
-
-// 需要权限的路由表
-export const asyncRoutes = [
   {
     path: '/example',
     component: Layout,
@@ -115,13 +76,37 @@ export const asyncRoutes = [
         path: 'personInfo',
         name: 'personInfo',
         component: () => import('@/views/personInfo/index'),
-        meta: { title: '修改个人信息', icon: 'table', roles:['user'] }
+        meta: { title: '修改个人信息', icon: 'table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree', roles:['user'] }
+        meta: { title: 'Tree', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/form',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' }
+      }
+    ]
+  },
+
+  {
+    path: 'external-link',
+    component: Layout,
+    children: [
+      {
+        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },
