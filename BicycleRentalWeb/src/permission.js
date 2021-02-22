@@ -44,6 +44,8 @@ router.beforeEach(async(to, from, next) => {
           const { roles } = await store.dispatch('user/getInfo') // 通过token获取相应权限数组
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles) //  根据角色生成可访问路由图
 
+          //更新加载路由
+          router.options.routes = store.getters.permission_routes//第三步
           //  动态添加可访问路由，生成侧边栏
           router.addRoutes(accessRoutes)
 
