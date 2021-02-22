@@ -34,6 +34,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        // 更改store中的状态 通过提交mutations 调用commit方法，第一个参数 一个回调函数，执行修改逻辑的函数，第二个 是mutations的载荷(一般为你需要修改的状态值)
+
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -53,8 +55,17 @@ const actions = {
           return reject('验证失败，请重新登录。')
         }
 
-        const { name, avatar } = data
+        // const { name, avatar } = data
+        const { roles, name, avatar, introduction } = data
 
+        // commit('SET_NAME', name)
+        // commit('SET_AVATAR', avatar)
+        // resolve(data)
+
+        if (!roles || roles.length <= 0) {
+          reject('getInfo: roles 必须是数组!')
+        }
+        commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         resolve(data)
