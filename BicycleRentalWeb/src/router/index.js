@@ -67,40 +67,6 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   name: 'Example',
-  //   meta: { title: '个人中心', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'personInfo',
-  //       name: 'personInfo',
-  //       component: () => import('@/views/personInfo/index'),
-  //       meta: { title: '修改个人信息', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-  //
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
 ]
 
 // 需要权限的路由表
@@ -109,20 +75,47 @@ export const asyncRoutes = [
     path: '/example',
     component: Layout,
     name: 'Example',
-    meta: { title: '个人中心', icon: 'el-icon-s-help' },
+    meta: { title: '个人中心', icon: 'el-icon-s-help',roles:['user'] },
     children: [
       {
         path: 'personInfo',
         name: 'personInfo',
         component: () => import('@/views/personInfo/index'),
-        meta: { title: '修改个人信息', icon: 'table', roles:['user'] }
+        meta: { title: '修改个人信息', icon: 'table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree', roles:['user'] }
+        meta: { title: 'Tree', icon: 'tree' }
       }
+    ]
+  },
+
+  {
+    path: '/bicycle',
+    component: Layout,
+    name: 'bicycle',
+    meta: { title: '自行车管理', icon: 'el-icon-bicycle',roles:['sys'] },
+    children: [
+      {
+        path: 'addBicycle',
+        name: 'addBicycle',
+        component: () => import('@/views/sysBicycle/addBicycle'),
+        meta: { title: '自行车录入', icon: 'el-icon-circle-plus-outline' }
+      },
+      {
+        path: 'removeBicycle',
+        name: 'removeBicycle',
+        component: () => import('@/views/sysBicycle/removeBicycle'),
+        meta: { title: '自行车回收', icon: 'el-icon-remove-outline' }
+      },
+      {
+        path: 'editBicycle',
+        name: 'editBicycle',
+        component: () => import('@/views/sysBicycle/editBicycle'),
+        meta: { title: '故障车维修', icon: 'el-icon-suitcase' }
+      },
     ]
   },
 
