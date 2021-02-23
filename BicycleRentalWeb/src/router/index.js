@@ -93,6 +93,27 @@ export const asyncRoutes = [
   },
 
   {
+    path: '/user',
+    component: Layout,
+    name: 'user',
+    meta: { title: '用户管理', icon: 'el-icon-user',roles:['sys'] },
+    children: [
+      {
+        path: 'updateIdentity',
+        name: 'updateIdentity',
+        component: () => import('@/views/sysUser/updateIdentity'),
+        meta: { title: '用户权限修改', icon: 'el-icon-edit' }
+      },
+      {
+        path: 'queryUser',
+        name: 'queryUser',
+        component: () => import('@/views/sysUser/queryUser'),
+        meta: { title: '用户信息查询', icon: 'el-icon-zoom-in' }
+      },
+    ]
+  },
+
+  {
     path: '/bicycle',
     component: Layout,
     name: 'bicycle',
