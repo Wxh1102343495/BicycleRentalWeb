@@ -116,9 +116,21 @@ export default {
             }
           }).then(response => {
             console.log(response)
+            if(response.data.code === 20000) {
+              this.$message({
+                message: '更新成功',
+                type: 'success'
+              });
+            }else {
+              this.$message({
+                message: '更新失败',
+                type: 'error'
+              });
+            }
+            this.findUserList()
           })
         }).catch(() => {
-          console.log('buquedinag')
+          return false
         })
       } else if (ident == '系统管理员') {
         this.$confirm('确定要将他的权限修改为普通用户么, 是否继续?', '提示', {
@@ -126,9 +138,29 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          console.log('quding')
+          axios({
+            url: 'http://localhost:9001/user/updateIdentity',
+            method: 'post',
+            data: {
+              id: row.id,
+              identity: 'user'
+            }
+          }).then(response => {
+            if(response.data.code === 20000) {
+              this.$message({
+                message: '更新成功',
+                type: 'success'
+              });
+            }else {
+              this.$message({
+                message: '更新失败',
+                type: 'error'
+              });
+            }
+            this.findUserList()
+          })
         }).catch(() => {
-          console.log('buquedinag')
+          return false
         })
       }
     }
