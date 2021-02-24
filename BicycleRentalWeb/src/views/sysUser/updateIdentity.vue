@@ -6,81 +6,132 @@
       </div>
       <vxe-table
         show-overflow
-        height="200"
         row-id="id"
         ref="xTable"
-        :loading="loading1"
-        :data="tableData1">
-        <vxe-table-column type="checkbox" width="60"></vxe-table-column>
-        <vxe-table-column type="seq" title="序号" width="60"></vxe-table-column>
-        <vxe-table-column field="name" title="Name" sortable></vxe-table-column>
-        <vxe-table-column field="sex" title="Sex"></vxe-table-column>
-        <vxe-table-column field="age" title="Age"></vxe-table-column>
-        <vxe-table-column field="rate" title="Rate"></vxe-table-column>
-        <vxe-table-column title="操作" width="100" show-overflow>
+        :loading="loading"
+        :data="tableData"
+      >
+        <vxe-table-column field="username" title="用户名" sortable></vxe-table-column>
+        <vxe-table-column field="name" title="姓名"></vxe-table-column>
+        <vxe-table-column field="phoneNumber" title="电话号"></vxe-table-column>
+        <vxe-table-column field="email" title="电子邮件"></vxe-table-column>
+        <vxe-table-column field="identity" title="权限"></vxe-table-column>
+        <vxe-table-column title="修改权限" width="100" show-overflow>
           <template v-slot="{ row }">
-            <vxe-button type="text" icon="el-icon-delete" @click="removeEvent(row)"></vxe-button>
+            <vxe-button type="text" icon="el-icon-edit-outline" @click="editIdentity(row)"></vxe-button>
           </template>
         </vxe-table-column>
       </vxe-table>
 
       <vxe-pager
-        :loading="loading1"
-        :current-page="tablePage1.currentPage"
-        :page-size="tablePage1.pageSize"
-        :total="tablePage1.totalResult"
+        :loading="loading"
+        :current-page="tablePage.currentPage"
+        :page-size="tablePage.pageSize"
+        :total="tablePage.totalResult"
         :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
-        @page-change="handlePageChange1">
+        @page-change="handlePageChange"
+      >
       </vxe-pager>
     </el-card>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: "updateIdentity",
-  data () {
+  name: 'updateIdentity',
+  data() {
     return {
-      loading1: false,
-      tableData1: [],
-      tablePage1: {
-        currentPage: 1,
-        pageSize: 10,
-        totalResult: 0
+      // 表格加载
+      loading: false,
+      // 表格数据
+      tableData: [],
+      // 表格分页
+      tablePage: {
+        currentPage: 1,// 当前页
+        pageSize: 5,// 每页条数
+        totalResult: 0// 总数
       }
     }
   },
-  created () {
-    this.findList1()
+  created() {
+    // 初始化 查询用户信息
+    this.findUserList()
   },
   methods: {
-    findList1 () {
-      this.loading1 = true
-      setTimeout(() => {
-        this.loading1 = false
-        this.tablePage1.totalResult = 6
-        this.tableData1 = [
-          { id: 10001, name: 'Test1', nickname: 'T1', role: 'Develop', sex: '1', age: 28, address: 'Shenzhen' },
-          { id: 10002, name: 'Test2', nickname: 'T2', role: 'Test', sex: '0', age: 22, address: 'Guangzhou' },
-          { id: 10003, name: 'Test3', nickname: 'T3', role: 'PM', sex: '1', age: 32, address: 'Shanghai' },
-          { id: 10004, name: 'Test4', nickname: 'T4', role: 'Designer', sex: '0', age: 23, address: 'Shenzhen' },
-          { id: 10005, name: 'Test5', nickname: 'T5', role: 'Develop', sex: '0', age: 30, address: 'Shanghai' },
-          { id: 10006, name: 'Test6', nickname: 'T6', role: 'Develop', sex: '0', age: 27, address: 'Shanghai' }
-        ]
-      }, 300)
-    },
-    handlePageChange1 ({ currentPage, pageSize }) {
-      this.tablePage1.currentPage = currentPage
-      this.tablePage1.pageSize = pageSize
-      this.findList1()
-    },
-    removeEvent (row) {
-      this.$XModal.confirm('您确定要删除该数据?').then(type => {
-        if (type === 'confirm') {
-          this.$refs.xTable.remove(row)
+    // 分页查询用户列表
+    findUserList() {
+      this.loading = true
+      axios.get('http://localhost:9001/user/pageQueryUser', {
+        params: {
+          pageNo: this.tablePage.currentPage,
+          pageSize: this.tablePage.pageSize
+        }
+      }).then(response => {
+        if (response.data.code === 20000) {
+          // 将数据转换成想要的展示
+          response.data.data.data.forEach(item => {
+            if (item.identity == 'sys') {
+              item.identity = '系统管理员'
+            } else if (item.identity == 'user') {
+              item.identity = '普通用户'
+            }
+          })
+          //将返回结果赋值给页面变量
+          this.tableData = response.data.data.data
+          this.tablePage.totalResult = response.data.data.total
+          this.loading = false
+        } else {
+          this.$message({
+            message: '查询用户失败!',
+            type: 'error'
+          })
         }
       })
     },
+    //切换分页
+    handlePageChange({ currentPage, pageSize }) {
+      //将新的当前页及每页条数赋值给全局变量
+      this.tablePage.currentPage = currentPage
+      this.tablePage.pageSize = pageSize
+      //调用函数根据新的分页数据再次查询api列表
+      this.findUserList()
+    },
+    editIdentity(row) {
+      console.log(row)
+      var ident = row.identity
+      if (ident == '普通用户') {
+        this.$confirm('确定要将他的权限修改为管理员么, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios({
+            url: 'http://localhost:9001/user/updateIdentity',
+            method: 'post',
+            data: {
+              id: row.id,
+              identity: 'sys'
+            }
+          }).then(response => {
+            console.log(response)
+          })
+        }).catch(() => {
+          console.log('buquedinag')
+        })
+      } else if (ident == '系统管理员') {
+        this.$confirm('确定要将他的权限修改为普通用户么, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          console.log('quding')
+        }).catch(() => {
+          console.log('buquedinag')
+        })
+      }
+    }
   }
 }
 </script>
@@ -92,6 +143,7 @@ export default {
   display: table;
   content: "";
 }
+
 .clearfix:after {
   clear: both
 }
