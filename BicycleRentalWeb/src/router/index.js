@@ -75,19 +75,14 @@ export const asyncRoutes = [
     path: '/example',
     component: Layout,
     name: 'Example',
-    meta: { title: '个人中心', icon: 'el-icon-s-help',roles:['user'] },
+    alwaysShow: true,
+    meta: { title: '个人中心', icon: 'el-icon-s-help',roles:['sys', 'user'] },
     children: [
       {
         path: 'personInfo',
         name: 'personInfo',
         component: () => import('@/views/personInfo/index'),
         meta: { title: '修改个人信息', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
       }
     ]
   },

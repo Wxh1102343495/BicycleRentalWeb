@@ -10,6 +10,8 @@ import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 
+import XEUtils from 'xe-utils'
+
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -37,6 +39,8 @@ import '@/permission' // permission control
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
 Vue.use(VXETable)
+Vue.prototype.$utils = XEUtils
+Vue.prototype.$cookie = XEUtils.cookie
 
 Vue.config.productionTip = false
 
