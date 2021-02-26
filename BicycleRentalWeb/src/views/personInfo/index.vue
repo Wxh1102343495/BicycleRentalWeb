@@ -10,10 +10,7 @@
             <el-input v-model="form.username" type="text"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="form.password" :key="passwordType" :type="passwordType" ref="password"/>
-            <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-        </span>
+            <el-input v-model="form.password" :key="passwordType" :type="passwordType" ref="password" :show-password="true"/>
           </el-form-item>
           <el-form-item label="姓名" prop="name">
             <el-input v-model="form.name" type="text"></el-input>
@@ -39,7 +36,18 @@
 
 <script>
 
+import axios from 'axios'
+import { mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters([
+      'name'
+    ])
+  },
+  created () {
+    this.findList()
+  },
   data() {
     // 校验手机号
     const checkPhone = (rule, value, callback) => {
@@ -52,14 +60,7 @@ export default {
     }
     return {
       passwordType: 'password',
-      form: {
-        username: '',
-        password: '',
-        name: '',
-        idNumber: '',
-        phoneNumber: '',
-        email: ''
-      },
+      form: {},
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -86,20 +87,35 @@ export default {
     }
   },
   methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
+    findList() {
+      axios({
+        url: 'http://localhost:9001/user/queryUserByUserName',
+        method: 'GET',
+        params: {
+          username : this.name
+        }
+      }).then(response => {
+        if (response.data.code === 20000) {
+          // 一份数据存于data用于页面展示
+          this.form = response.data.data
+          // 一部分数存于session用于对比数据是否发生变化
+          sessionStorage.setItem("initForm",JSON.stringify(response.data.data))
+        } else {
+          this.$message({
+            message: '查询用户失败!',
+            type: 'error'
+          })
+        }
       })
     },
     onSubmit() {
-
-    }
-    ,
+      // 判断form表单得值是否发生变化
+      if(JSON.stringify(this.form) == sessionStorage.getItem("initForm")){
+        console.log("表单没变化，允许离开");
+      }else{
+        console.log("表单变化，询问是否保存");
+      }
+    },
     onReturn() {
 
     }
