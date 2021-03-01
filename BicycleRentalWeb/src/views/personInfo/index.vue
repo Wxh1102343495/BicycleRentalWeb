@@ -25,7 +25,7 @@
             <el-input v-model="form.email" type="email"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即注册</el-button>
+            <el-button type="primary" @click="onSubmit">保存修改</el-button>
             <el-button @click="onReturn">取消</el-button>
           </el-form-item>
         </el-form>
@@ -87,6 +87,7 @@ export default {
     }
   },
   methods: {
+    // 初始化查询用户信息
     findList() {
       axios({
         url: 'http://localhost:9001/user/queryUserByUserName',
@@ -108,16 +109,41 @@ export default {
         }
       })
     },
+    //保存提交按钮
     onSubmit() {
       // 判断form表单得值是否发生变化
       if(JSON.stringify(this.form) == sessionStorage.getItem("initForm")){
-        console.log("表单没变化，允许离开");
+        this.$message({
+          message: '没有做任何修改，请修改后提交',
+          type: 'error'
+        })
       }else{
-        console.log("表单变化，询问是否保存");
+        axios({
+          url: 'http://localhost:9001/user/updateUser',
+          method: 'POST',
+          data: this.form
+        }).then(response => {
+          if (response.data.code === 20000) {
+            this.$message({
+              message: '更新成功!',
+              type: 'success'
+            })
+            this.$router.replace({path: '/'})
+          } else {
+            this.$message({
+              message: '保存失败!',
+              type: 'error'
+            })
+          }
+        })
       }
     },
     onReturn() {
-
+      this.$message({
+        message: '没有做任何修改',
+        type: 'error'
+      })
+      this.$router.replace({path: '/'})
     }
   }
 }
