@@ -37,7 +37,7 @@
         <el-input type="textarea" v-model="form.describe"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit">立即添加</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </el-form>
@@ -45,10 +45,13 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: 'addBicycle',
   data() {
     return {
+      // 地址信息
+      location: [],
       // 表单
       form: {
         bicycleName: '',
@@ -61,7 +64,29 @@ export default {
       },
     }
   },
+  created () {
+    this.findLocation()
+  },
   methods: {
+    //查询地址信息
+    findLocation () {
+      let geoData = require('../../../static/distrscts.json');
+      console.log(geoData)
+      // axios({
+      //   url: 'http://localhost:9001/location/queryLocation',
+      //   method: 'GET'
+      // }).then(response => {
+      //   console.log(response)
+      //   if (response.data.code === 20000) {
+      //     console.log(response.data.data)
+      //   } else {
+      //     this.$message({
+      //       message: '查询用户失败!',
+      //       type: 'error'
+      //     })
+      //   }
+      // })
+    },
     // 表单提交
     onSubmit() {
       console.log('submit!')
