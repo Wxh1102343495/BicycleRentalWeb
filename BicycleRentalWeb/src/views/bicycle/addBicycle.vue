@@ -70,8 +70,6 @@ export default {
   methods: {
     //查询地址信息
     findLocation () {
-      // let geoData = require('../../../static/distrscts.json');
-      // console.log(geoData)
       axios({
         url: 'http://localhost:9001/location/queryLocation',
         method: 'GET'

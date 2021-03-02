@@ -10,16 +10,17 @@
 </template>
 
 <script>
-import { regionDataPlus } from 'element-china-area-data'
+import { regionData  } from 'element-china-area-data'
 export default {
   data() {
     return {
-      options: regionDataPlus,
+      options: regionData,
       selectedOptions: []
     }
   },
   methods: {
     handleChange (value) {
+      console.log(this.selectedOptions)
       console.log(value)
     },
   }
