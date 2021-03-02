@@ -20,6 +20,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode } from 'element-china-area-data'
 
 /**
  * If you don't want to use mock-server

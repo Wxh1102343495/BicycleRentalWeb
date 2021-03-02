@@ -96,13 +96,13 @@ export const asyncRoutes = [
       {
         path: 'updateIdentity',
         name: 'updateIdentity',
-        component: () => import('@/views/sysUser/updateIdentity'),
+        component: () => import('@/views/user/updateIdentity'),
         meta: { title: '用户权限修改', icon: 'el-icon-edit' }
       },
       {
         path: 'queryUser',
         name: 'queryUser',
-        component: () => import('@/views/sysUser/queryUser'),
+        component: () => import('@/views/user/queryUser'),
         meta: { title: '用户信息查询', icon: 'el-icon-zoom-in' }
       },
     ]
@@ -117,20 +117,40 @@ export const asyncRoutes = [
       {
         path: 'addBicycle',
         name: 'addBicycle',
-        component: () => import('@/views/sysBicycle/addBicycle'),
+        component: () => import('@/views/bicycle/addBicycle'),
         meta: { title: '自行车录入', icon: 'el-icon-circle-plus-outline' }
       },
       {
         path: 'removeBicycle',
         name: 'removeBicycle',
-        component: () => import('@/views/sysBicycle/removeBicycle'),
+        component: () => import('@/views/bicycle/removeBicycle'),
         meta: { title: '自行车回收', icon: 'el-icon-remove-outline' }
       },
       {
         path: 'editBicycle',
         name: 'editBicycle',
-        component: () => import('@/views/sysBicycle/editBicycle'),
+        component: () => import('@/views/bicycle/editBicycle'),
         meta: { title: '故障车维修', icon: 'el-icon-suitcase' }
+      },
+    ]
+  },
+  {
+    path: '/location',
+    component: Layout,
+    name: 'location',
+    meta: { title: '租赁地址管理', icon: 'el-icon-location-information',roles:['sys'] },
+    children: [
+      {
+        path: 'addLocation',
+        name: 'addLocation',
+        component: () => import('@/views/location/addLocation'),
+        meta: { title: '添加地址', icon: 'el-icon-plus' }
+      },
+      {
+        path: 'removeLocation',
+        name: 'removeLocation',
+        component: () => import('@/views/location/removeLocation'),
+        meta: { title: '删除地址', icon: 'el-icon-delete' }
       },
     ]
   },

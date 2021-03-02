@@ -70,22 +70,22 @@ export default {
   methods: {
     //查询地址信息
     findLocation () {
-      let geoData = require('../../../static/distrscts.json');
-      console.log(geoData)
-      // axios({
-      //   url: 'http://localhost:9001/location/queryLocation',
-      //   method: 'GET'
-      // }).then(response => {
-      //   console.log(response)
-      //   if (response.data.code === 20000) {
-      //     console.log(response.data.data)
-      //   } else {
-      //     this.$message({
-      //       message: '查询用户失败!',
-      //       type: 'error'
-      //     })
-      //   }
-      // })
+      // let geoData = require('../../../static/distrscts.json');
+      // console.log(geoData)
+      axios({
+        url: 'http://localhost:9001/location/queryLocation',
+        method: 'GET'
+      }).then(response => {
+        console.log(response)
+        if (response.data.code === 20000) {
+          console.log(response.data.data)
+        } else {
+          this.$message({
+            message: '查询用户失败!',
+            type: 'error'
+          })
+        }
+      })
     },
     // 表单提交
     onSubmit() {
