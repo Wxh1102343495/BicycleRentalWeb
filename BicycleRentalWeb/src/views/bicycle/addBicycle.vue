@@ -5,10 +5,15 @@
         <el-input v-model="form.bicycleName"></el-input>
       </el-form-item>
       <el-form-item label="所在停车点">
-        <el-select v-model="form.locationId" placeholder="请选择停车点">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select>
+<!--        <el-select v-model="form.locationId" placeholder="请选择停车点">-->
+<!--          <el-option v-for="(local,index) in location" :label="local.area" :value="local.id"></el-option>-->
+<!--        </el-select>-->
+        <div class="block">
+          <el-cascader
+            placeholder="请选择停车点"
+            :options="options"
+            filterable></el-cascader>
+        </div>
       </el-form-item>
       <el-form-item label="自行车照片">
         <el-upload
@@ -51,11 +56,29 @@ export default {
   data() {
     return {
       // 地址信息
-      location: [],
+      location: [
+        {
+          value: '',
+          label: '',
+          children: [
+            {
+              value: '',
+              label: '',
+              children: [
+                {
+                  value: '',
+                  label: '',
+                }
+              ]
+            }
+          ]
+        }
+      ],
       // 表单
       form: {
         bicycleName: '',
         locationId: '',
+        location:[],
         photo: '',
         describe: '',
         hourRent: 0,
@@ -77,6 +100,7 @@ export default {
         console.log(response)
         if (response.data.code === 20000) {
           console.log(response.data.data)
+          this.location = response.data.data
         } else {
           this.$message({
             message: '查询用户失败!',

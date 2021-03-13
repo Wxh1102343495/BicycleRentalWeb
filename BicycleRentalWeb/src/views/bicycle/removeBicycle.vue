@@ -4,7 +4,10 @@
 
 <script>
 export default {
-  name: 'removeBicycle'
+  name: 'removeBicycle',
+  data () {
+    return {}
+  },
 }
 </script>
 
