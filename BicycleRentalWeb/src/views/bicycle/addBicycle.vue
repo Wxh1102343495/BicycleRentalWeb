@@ -5,14 +5,16 @@
         <el-input v-model="form.bicycleName"></el-input>
       </el-form-item>
       <el-form-item label="所在停车点">
-<!--        <el-select v-model="form.locationId" placeholder="请选择停车点">-->
-<!--          <el-option v-for="(local,index) in location" :label="local.area" :value="local.id"></el-option>-->
-<!--        </el-select>-->
         <div class="block">
-          <el-cascader
-            placeholder="请选择停车点"
-            :options="options"
-            filterable></el-cascader>
+          <el-select v-model="form.location" placeholder="请选择停车点" :clearable="true">
+            <el-option
+              v-for="item in location"
+              :key="item.id"
+              :label="item.province + item.area + item.city + item.locationInfo"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
         </div>
       </el-form-item>
       <el-form-item label="自行车照片">
@@ -39,67 +41,48 @@
         <el-input-number v-model="form.monthRent" :precision="2" :step="0.1" :max="1000"></el-input-number>
       </el-form-item>
       <el-form-item label="自行车描述">
-        <el-input type="textarea" v-model="form.describe"></el-input>
+        <el-input type="textarea" v-model="form.describ"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即添加</el-button>
-        <el-button>取消</el-button>
+        <el-button @click="notSubmit">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
+
 export default {
   name: 'addBicycle',
   data() {
     return {
       // 地址信息
-      location: [
-        {
-          value: '',
-          label: '',
-          children: [
-            {
-              value: '',
-              label: '',
-              children: [
-                {
-                  value: '',
-                  label: '',
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      location: [],
       // 表单
       form: {
         bicycleName: '',
-        locationId: '',
-        location:[],
+        location: '',
         photo: '',
-        describe: '',
+        describ: '',
         hourRent: 0,
         dayRent: 0,
         monthRent: 0
-      },
+      }
     }
   },
-  created () {
+  created() {
     this.findLocation()
   },
   methods: {
     //查询地址信息
-    findLocation () {
+    findLocation() {
       axios({
         url: 'http://localhost:9001/location/queryLocation',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         if (response.data.code === 20000) {
-          console.log(response.data.data)
           this.location = response.data.data
         } else {
           this.$message({
@@ -111,8 +94,32 @@ export default {
     },
     // 表单提交
     onSubmit() {
-      console.log('submit!')
-      console.log(this.form.photo)
+      axios({
+        url: 'http://localhost:9001/bicycle/addBicycle',
+        method: 'POST',
+        data: {
+          locationId: this.form.location,
+          bicycleName: this.form.bicycleName,
+          photo: this.form.photo,
+          describ: this.form.describ,
+          hourRent: this.form.hourRent,
+          dayRent: this.form.dayRent,
+          monthRent: this.form.monthRent
+        }
+      }).then(response => {
+        if (response.data.code === 20000) {
+          this.$message({
+            message: '添加自行车成功!',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '添加自行车失败!',
+            type: 'error'
+          })
+        }
+        this.init()
+      })
     },
     // 上传之前的格式设置
     beforeAvatarUpload(file) {
@@ -135,6 +142,20 @@ export default {
       rd.onloadend = function(e) {
         that.form.photo = this.result // this指向当前方法onloadend的作用域
       }
+    },
+    //取消按钮
+    notSubmit() {
+      this.init()
+    },
+    //初始化
+    init() {
+      this.form.location = ''
+      this.form.bicycleName = ''
+      this.form.photo = ''
+      this.form.describ = ''
+      this.form.hourRent = 0
+      this.form.dayRent = 0
+      this.form.monthRent = 0
     }
   }
 }
