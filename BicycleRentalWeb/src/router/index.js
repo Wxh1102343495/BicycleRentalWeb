@@ -134,6 +134,7 @@ export const asyncRoutes = [
       },
     ]
   },
+
   {
     path: '/location',
     component: Layout,
@@ -151,6 +152,48 @@ export const asyncRoutes = [
         name: 'removeLocation',
         component: () => import('@/views/location/removeLocation'),
         meta: { title: '删除地址', icon: 'el-icon-delete' }
+      },
+    ]
+  },
+
+  {
+    path: '/coupon',
+    component: Layout,
+    name: 'coupon',
+    meta: { title: '优惠券管理', icon: 'el-icon-s-ticket',roles:['sys'] },
+    children: [
+      {
+        path: 'addCoupon',
+        name: 'addCoupon',
+        component: () => import('@/views/coupon/addCoupon'),
+        meta: { title: '发布优惠券', icon: 'el-icon-plus' }
+      },
+      {
+        path: 'queryCoupon',
+        name: 'queryCoupon',
+        component: () => import('@/views/coupon/queryCoupon'),
+        meta: { title: '优惠券查询', icon: 'el-icon-search' }
+      },
+    ]
+  },
+
+  {
+    path: '/problem',
+    component: Layout,
+    name: 'problem',
+    meta: { title: '问题处理', icon: 'el-icon-warning-outline',roles:['sys'] },
+    children: [
+      {
+        path: 'userComplaint',
+        name: 'userComplaint',
+        component: () => import('@/views/problem/userComplaint'),
+        meta: { title: '用户投诉处理', icon: 'el-icon-bell' }
+      },
+      {
+        path: 'orderInfo',
+        name: 'orderInfo',
+        component: () => import('@/views/problem/orderInfo'),
+        meta: { title: '订单评价查询', icon: 'el-icon-tickets' }
       },
     ]
   },

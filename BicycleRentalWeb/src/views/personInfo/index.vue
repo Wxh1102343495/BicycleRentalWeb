@@ -2,7 +2,7 @@
   <div class="app">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>卡片名称</span>
+        <span>{{ form.username }}</span>
       </div>
       <div style="margin: 10px 50px">
         <el-form class="form" ref="form" :rules="rules" :model="form" label-width="85px">

@@ -30,7 +30,7 @@
       :page-size="tablePage.pageSize"
       :total="tablePage.totalResult"
       :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
-      @page-change="handlePageChange2"
+      @page-change="handlePageChange"
     >
     </vxe-pager>
   </div>
@@ -107,8 +107,8 @@ export default {
         }
       })
     },
-    //用户切换分页
-    handlePageChange2({ currentPage, pageSize }) {
+    //切换分页
+    handlePageChange({ currentPage, pageSize }) {
       //将新的当前页及每页条数赋值给全局变量
       this.tablePage.currentPage = currentPage
       this.tablePage.pageSize = pageSize
