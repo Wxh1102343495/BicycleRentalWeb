@@ -5,14 +5,28 @@
       :data="tableData"
       ref="xTable"
       border
+      resizable
+      keep-source
+      :edit-config="{trigger: 'manual', mode: 'row'}"
     >
       <vxe-table-column field="province" title="所在省份"></vxe-table-column>
       <vxe-table-column field="city" title="所在市"></vxe-table-column>
       <vxe-table-column field="area" title="所在区"></vxe-table-column>
-      <vxe-table-column field="locationInfo" title="具体位置信息"></vxe-table-column>
-      <vxe-table-column title="操作">
+      <vxe-table-column field="locationInfo" title="具体位置信息" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+      <vxe-table-column title="删除">
         <template #default="{ row }">
           <vxe-button type="text" icon="el-icon-delete" @click="removeEvent(row)"></vxe-button>
+        </template>
+      </vxe-table-column>
+      <vxe-table-column title="编辑" width="160">
+        <template #default="{ row }">
+          <template v-if="$refs.xTable.isActiveByRow(row)">
+            <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
+            <vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
+          </template>
+          <template v-else>
+            <vxe-button @click="editRowEvent(row)">编辑</vxe-button>
+          </template>
         </template>
       </vxe-table-column>
     </vxe-table>
@@ -63,7 +77,7 @@ export default {
         }
       })
     },
-    // 删除自行车
+    // 删除地址
     removeEvent(row) {
       this.$confirm('确定要删除该地址么?', '提示', {
         confirmButtonText: '确定',
@@ -92,6 +106,45 @@ export default {
         })
       }).catch(() => {
         return false
+      })
+    },
+    //编辑地址
+    editRowEvent(row){
+      this.$refs.xTable.setActiveRow(row)
+    },
+    //保存按钮
+    saveRowEvent(row) {
+      this.$refs.xTable.clearActived().then(() => {
+        console.log()
+        axios({
+          url: 'http://localhost:9001/location/updateLocation',
+          method: 'POST',
+          data: {
+            id: row.id,
+            locationInfo: row.locationInfo
+          }
+        }).then(response => {
+          if (response.data.code === 20000) {
+            this.$message({
+              message: '更新成功!',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '更新失败!',
+              type: 'error'
+            })
+          }
+          this.findLocation()
+        })
+      })
+    },
+    //取消按钮
+    cancelRowEvent(row) {
+      const xTable = this.$refs.xTable
+      xTable.clearActived().then(() => {
+        // 还原行数据
+        xTable.revertData(row)
       })
     },
     //切换分页
