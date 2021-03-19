@@ -4,19 +4,19 @@
       <el-form-item label="自行车名称">
         <el-input v-model="form.bicycleName"></el-input>
       </el-form-item>
-      <el-form-item label="所在停车点">
-        <div class="block">
-          <el-select v-model="form.location" placeholder="请选择停车点" :clearable="true">
-            <el-option
-              v-for="item in location"
-              :key="item.id"
-              :label="item.province + item.area + item.city + item.locationInfo"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </div>
-      </el-form-item>
+<!--      <el-form-item label="所在停车点">-->
+<!--        <div class="block">-->
+<!--          <el-select v-model="form.location" placeholder="请选择停车点" :clearable="true">-->
+<!--            <el-option-->
+<!--              v-for="item in location"-->
+<!--              :key="item.id"-->
+<!--              :label="item.province + item.area + item.city + item.locationInfo"-->
+<!--              :value="item.id"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </div>-->
+<!--      </el-form-item>-->
       <el-form-item label="自行车照片">
         <el-upload
           class="upload-demo"
@@ -58,12 +58,9 @@ export default {
   name: 'addBicycle',
   data() {
     return {
-      // 地址信息
-      location: [],
       // 表单
       form: {
         bicycleName: '',
-        location: '',
         photo: '',
         describ: '',
         hourRent: 0,
@@ -72,33 +69,14 @@ export default {
       }
     }
   },
-  created() {
-    this.findLocation()
-  },
   methods: {
-    //查询地址信息
-    findLocation() {
-      axios({
-        url: 'http://localhost:9001/location/queryLocation',
-        method: 'GET'
-      }).then(response => {
-        if (response.data.code === 20000) {
-          this.location = response.data.data
-        } else {
-          this.$message({
-            message: '查询用户失败!',
-            type: 'error'
-          })
-        }
-      })
-    },
+
     // 表单提交
     onSubmit() {
       axios({
         url: 'http://localhost:9001/bicycle/addBicycle',
         method: 'POST',
         data: {
-          locationId: this.form.location,
           bicycleName: this.form.bicycleName,
           photo: this.form.photo,
           describ: this.form.describ,
@@ -149,7 +127,6 @@ export default {
     },
     //初始化
     init() {
-      this.form.location = ''
       this.form.bicycleName = ''
       this.form.photo = ''
       this.form.describ = ''

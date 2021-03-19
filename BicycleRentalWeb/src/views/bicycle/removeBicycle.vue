@@ -6,20 +6,20 @@
       ref="xTable"
       border
     >
-      <vxe-table-column field="bicycleCode" title="自行车编码" width="150px"></vxe-table-column>
-      <vxe-table-column title="所在停车点">
-        <template #default="{ row }">
-          <span>{{row.location.province+row.location.city+row.location.area+row.location.locationInfo}}</span>
-        </template>
-      </vxe-table-column>
-      <vxe-table-column field="bicycleName" title="自行车名字" width="120px"></vxe-table-column>
+      <vxe-table-column field="bicycleCode" title="自行车编码"></vxe-table-column>
+<!--      <vxe-table-column title="所在停车点">-->
+<!--        <template #default="{ row }">-->
+<!--          <span>{{row.location.province+row.location.city+row.location.area+row.location.locationInfo}}</span>-->
+<!--        </template>-->
+<!--      </vxe-table-column>-->
+      <vxe-table-column field="bicycleName" title="自行车名字"></vxe-table-column>
       <vxe-table-column title="照片">
         <template #default="{ row }">
           <img :src="row.photo" style="display: block;width: 150px;height: 80px;">
         </template>
       </vxe-table-column>
       <vxe-table-column field="describ" title="自行车描述"></vxe-table-column>
-      <vxe-table-column title="操作" width="100">
+      <vxe-table-column title="操作">
         <template #default="{ row }">
           <vxe-button type="text" icon="el-icon-delete" @click="removeEvent(row)"></vxe-button>
         </template>

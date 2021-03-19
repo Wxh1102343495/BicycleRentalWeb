@@ -151,7 +151,7 @@ export const asyncRoutes = [
         path: 'removeLocation',
         name: 'removeLocation',
         component: () => import('@/views/location/removeLocation'),
-        meta: { title: '删除地址', icon: 'el-icon-delete' }
+        meta: { title: '编辑地址', icon: 'el-icon-delete' }
       },
     ]
   },
