@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <h2>发布自行车</h2>
     <el-form ref="form" :model="form" label-width="90px">
       <el-form-item label="自行车名称">
         <el-input v-model="form.bicycleName"></el-input>
