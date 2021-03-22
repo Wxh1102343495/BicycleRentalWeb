@@ -172,7 +172,7 @@ export const asyncRoutes = [
         path: 'queryCoupon',
         name: 'queryCoupon',
         component: () => import('@/views/coupon/queryCoupon'),
-        meta: { title: '优惠券查询', icon: 'el-icon-search' }
+        meta: { title: '管理优惠券', icon: 'el-icon-setting' }
       },
     ]
   },

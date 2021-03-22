@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>报废自行车回收</h3>
+    <h3>租赁地点管理</h3>
     <vxe-table
       :data="tableData"
       ref="xTable"
@@ -51,7 +51,7 @@ export default {
       tableData: [],
       tablePage: {
         currentPage: 1,// 当前页
-        pageSize: 4,// 每页条数
+        pageSize: 5,// 每页条数
         totalResult: 0// 总数
       }
     }
@@ -65,10 +65,15 @@ export default {
     findLocation() {
       axios({
         url: 'http://localhost:9001/location/queryLocation',
-        method: 'GET'
+        method: 'GET',
+        params: {
+          pageNo: this.tablePage.currentPage,
+          pageSize: this.tablePage.pageSize,
+        }
       }).then(response => {
         if (response.data.code === 20000) {
-          this.tableData = response.data.data
+          this.tableData = response.data.data.data
+          this.tablePage.totalResult = response.data.data.total
         } else {
           this.$message({
             message: '查询失败!',
@@ -153,7 +158,7 @@ export default {
       this.tablePage.currentPage = currentPage
       this.tablePage.pageSize = pageSize
       //调用函数根据新的分页数据再次查询api列表
-      this.findUseBicycleList()
+      this.findLocation()
     },
   }
 }
