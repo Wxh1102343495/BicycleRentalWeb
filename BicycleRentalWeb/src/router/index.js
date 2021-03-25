@@ -87,6 +87,8 @@ export const asyncRoutes = [
     ]
   },
 
+  // 管理员权限
+
   {
     path: '/user',
     component: Layout,
@@ -194,6 +196,29 @@ export const asyncRoutes = [
         name: 'orderInfo',
         component: () => import('@/views/sys/problem/orderInfo'),
         meta: { title: '订单评价查询', icon: 'el-icon-tickets' }
+      },
+    ]
+  },
+
+  // 用户权限
+
+  {
+    path: '/userBicycle',
+    component: Layout,
+    name: 'userBicycle',
+    meta: { title: '自行车', icon: 'el-icon-bicycle',roles:['user'] },
+    children: [
+      {
+        path: 'bicycleRental',
+        name: 'bicycleRental',
+        component: () => import('@/views/user/userBicycle/bicycleRental'),
+        meta: { title: '租车', icon: 'el-icon-circle-plus' }
+      },
+      {
+        path: 'orderInfo',
+        name: 'orderInfo',
+        component: () => import('@/views/user/userBicycle/bicycleReturn'),
+        meta: { title: '还车', icon: 'el-icon-remove' }
       },
     ]
   },
