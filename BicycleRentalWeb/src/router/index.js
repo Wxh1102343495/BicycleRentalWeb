@@ -96,13 +96,13 @@ export const asyncRoutes = [
       {
         path: 'updateIdentity',
         name: 'updateIdentity',
-        component: () => import('@/views/user/updateIdentity'),
+        component: () => import('@/views/sys/user/updateIdentity'),
         meta: { title: '用户权限修改', icon: 'el-icon-edit' }
       },
       {
         path: 'queryUser',
         name: 'queryUser',
-        component: () => import('@/views/user/queryUser'),
+        component: () => import('@/views/sys/user/queryUser'),
         meta: { title: '用户信息查询', icon: 'el-icon-zoom-in' }
       },
     ]
@@ -117,19 +117,19 @@ export const asyncRoutes = [
       {
         path: 'addBicycle',
         name: 'addBicycle',
-        component: () => import('@/views/bicycle/addBicycle'),
+        component: () => import('@/views/sys/bicycle/addBicycle'),
         meta: { title: '自行车录入', icon: 'el-icon-circle-plus-outline' }
       },
       {
         path: 'removeBicycle',
         name: 'removeBicycle',
-        component: () => import('@/views/bicycle/removeBicycle'),
+        component: () => import('@/views/sys/bicycle/removeBicycle'),
         meta: { title: '自行车回收', icon: 'el-icon-remove-outline' }
       },
       {
         path: 'editBicycle',
         name: 'editBicycle',
-        component: () => import('@/views/bicycle/editBicycle'),
+        component: () => import('@/views/sys/bicycle/editBicycle'),
         meta: { title: '故障车维修', icon: 'el-icon-suitcase' }
       },
     ]
@@ -144,13 +144,13 @@ export const asyncRoutes = [
       {
         path: 'addLocation',
         name: 'addLocation',
-        component: () => import('@/views/location/addLocation'),
+        component: () => import('@/views/sys/location/addLocation'),
         meta: { title: '添加地址', icon: 'el-icon-plus' }
       },
       {
         path: 'removeLocation',
         name: 'removeLocation',
-        component: () => import('@/views/location/removeLocation'),
+        component: () => import('@/views/sys/location/removeLocation'),
         meta: { title: '编辑地址', icon: 'el-icon-delete' }
       },
     ]
@@ -165,13 +165,13 @@ export const asyncRoutes = [
       {
         path: 'addCoupon',
         name: 'addCoupon',
-        component: () => import('@/views/coupon/addCoupon'),
+        component: () => import('@/views/sys/coupon/addCoupon'),
         meta: { title: '发布优惠券', icon: 'el-icon-plus' }
       },
       {
         path: 'queryCoupon',
         name: 'queryCoupon',
-        component: () => import('@/views/coupon/queryCoupon'),
+        component: () => import('@/views/sys/coupon/queryCoupon'),
         meta: { title: '管理优惠券', icon: 'el-icon-setting' }
       },
     ]
@@ -186,13 +186,13 @@ export const asyncRoutes = [
       {
         path: 'userComplaint',
         name: 'userComplaint',
-        component: () => import('@/views/problem/userComplaint'),
+        component: () => import('@/views/sys/problem/userComplaint'),
         meta: { title: '用户投诉处理', icon: 'el-icon-bell' }
       },
       {
         path: 'orderInfo',
         name: 'orderInfo',
-        component: () => import('@/views/problem/orderInfo'),
+        component: () => import('@/views/sys/problem/orderInfo'),
         meta: { title: '订单评价查询', icon: 'el-icon-tickets' }
       },
     ]
