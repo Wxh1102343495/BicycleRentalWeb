@@ -105,6 +105,12 @@ export default {
     },
     //下单按钮
     onSubmit() {
+      // 将自行车编码通过路由方式传递到订单页
+      this.$router.push({
+        name:'orderIndex',
+        path:'/userOrder/orderIndex',
+        params:{form:this.form}
+      })
     },
     // 取消按钮
     notSubmit() {

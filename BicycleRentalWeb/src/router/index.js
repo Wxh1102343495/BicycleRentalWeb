@@ -203,9 +203,9 @@ export const asyncRoutes = [
   // 用户权限
 
   {
-    path: '/userBicycle',
+    path: '/bicycleRental',
     component: Layout,
-    name: 'userBicycle',
+    name: 'bicycleRental',
     meta: { title: '自行车', icon: 'el-icon-bicycle',roles:['user'] },
     children: [
       {
@@ -215,10 +215,33 @@ export const asyncRoutes = [
         meta: { title: '租车', icon: 'el-icon-circle-plus' }
       },
       {
-        path: 'orderInfo',
-        name: 'orderInfo',
+        path: 'bicycleReturn',
+        name: 'bicycleReturn',
         component: () => import('@/views/user/userBicycle/bicycleReturn'),
         meta: { title: '还车', icon: 'el-icon-remove' }
+      },
+    ]
+  },
+
+  {
+    path: '/userOrder',
+    component: Layout,
+    name: 'bicycleRental',
+    alwaysShow: true,
+    meta: { title: '订单', icon: 'el-icon-bicycle',roles:['user'] },
+    children: [
+      {
+        path: 'orderIndex',
+        name: 'orderIndex',
+        component: () => import('@/views/user/userOrder/orderIndex'),
+        meta: { title: '生成订单页', icon: 'el-icon-circle-plus' },
+        hidden: true
+      },
+      {
+        path: 'queryOrder',
+        name: 'queryOrder',
+        component: () => import('@/views/user/userOrder/queryOrder'),
+        meta: { title: '查看订单', icon: 'el-icon-remove' }
       },
     ]
   },
