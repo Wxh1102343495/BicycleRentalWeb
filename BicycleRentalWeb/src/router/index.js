@@ -234,7 +234,7 @@ export const asyncRoutes = [
         path: 'orderIndex',
         name: 'orderIndex',
         component: () => import('@/views/user/userOrder/orderIndex'),
-        meta: { title: '生成订单页', icon: 'el-icon-circle-plus' },
+        meta: { title: '生成订单', icon: 'el-icon-circle-plus' },
         hidden: true
       },
       {

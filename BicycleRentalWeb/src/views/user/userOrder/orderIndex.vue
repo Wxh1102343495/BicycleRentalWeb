@@ -22,11 +22,15 @@
           </el-form-item>
           <el-form-item label="取车时间">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="orderForm.date1" :picker-options="pickerOptions" value-format="yyyy-MM-dd" format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="orderForm.date1" :picker-options="pickerOptions"
+                              format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" style="width: 100%;"
+              ></el-date-picker>
             </el-col>
             <el-col class="line" :span="2">-</el-col>
             <el-col :span="11">
-              <el-time-picker placeholder="选择时间" v-model="orderForm.date2" value-format="HH:mm:ss" format="HH:mm:ss" style="width: 100%;"></el-time-picker>
+              <el-time-picker placeholder="选择时间" v-model="orderForm.date2" format="HH:mm:ss" value-format="HH:mm:ss"
+                              style="width: 100%;"
+              ></el-time-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="即时配送">
@@ -72,8 +76,8 @@ export default {
   },
   data() {
     return {
-      form: '',
-      location:[],
+      form: {},
+      location: [],
       orderForm: {
         location: '',
         date1: '',
@@ -87,7 +91,7 @@ export default {
         disabledDate(time) {
           return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
         }
-      },
+      }
     }
   },
   methods: {
@@ -97,7 +101,6 @@ export default {
         url: 'http://localhost:9001/location/findAllLocation',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         if (response.data.code === 20000) {
           this.location = response.data.data
         } else {
@@ -107,11 +110,54 @@ export default {
     },
     //生成订单
     onSubmit() {
-      console.log(this.form.bicycleCode+"/"+this.orderForm.location)
+      var startTime = this.orderForm.date1 + ' ' + this.orderForm.date2
+      console.log(startTime)
+      var rentMode = ''
+      if (this.orderForm.resource === '时租') {
+        rentMode = 'h'
+      } else if (this.orderForm.resource === '日租') {
+        rentMode = 'd'
+      } else if (this.orderForm.resource === '月租') {
+        rentMode = 'm'
+      }
+      axios({
+        url: `http://localhost:9001/order/creatOrder?username=${this.name}`,
+        method: 'POST',
+        data: {
+          bicycleId: this.form.bicycleCode,
+          locationId: this.orderForm.location,
+          rentMode: rentMode,
+          startTime: startTime,
+          remark: this.orderForm.desc
+        }
+      }).then(response => {
+        if (response.data.code === 20000) {
+          this.$message({
+            message: '下单成功!',
+            type: 'success'
+          })
+          this.$router.push({
+            name:'queryOrder',
+            path:'/userOrder/queryOrder',
+          })
+        } else {
+          this.$message({
+            message: '下单失败失败，请重新下单',
+            type: 'error'
+          })
+          this.$router.push({
+            name:'bicycleRental',
+            path:'/userBicycle/bicycleRental',
+          })
+        }
+      })
     },
     notSubmit() {
-
-    },
+      this.$router.push({
+        name:'bicycleRental',
+        path:'/userBicycle/bicycleRental',
+      })
+    }
   }
 
 }
