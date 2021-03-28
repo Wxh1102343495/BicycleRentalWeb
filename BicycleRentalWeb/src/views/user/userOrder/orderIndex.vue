@@ -111,7 +111,6 @@ export default {
     //生成订单
     onSubmit() {
       var startTime = this.orderForm.date1 + ' ' + this.orderForm.date2
-      console.log(startTime)
       var rentMode = ''
       if (this.orderForm.resource === '时租') {
         rentMode = 'h'

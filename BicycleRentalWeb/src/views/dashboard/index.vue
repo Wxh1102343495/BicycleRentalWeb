@@ -10,8 +10,6 @@
             <img :src="item.idView" class="image" style="height: 240px;width: 100%">
           </el-carousel-item>
         </el-carousel>
-      </el-main>
-      <el-footer>
         <h3 style="color: #409EFF; text-align: center;">租赁步骤</h3>
         <el-steps :active="2" align-center>
           <el-step title="步骤1" description="在左侧菜单，自行车->租车界面中选择您喜欢的自行车，点击下单"></el-step>
@@ -19,6 +17,39 @@
           <el-step title="步骤3" description="还车时将车停在运营服务区内任意停车点，若定位显示您不在运营区内那将收取额外费用"></el-step>
           <el-step title="步骤4" description="若骑行中出现故障，对订单有任何疑问，对系统有什么建议请在系统中联系我们"></el-step>
         </el-steps>
+        <h3 style="text-align: center;">在您使用前请仔细阅读下列规则！</h3>
+        <h3 style="color: #409EFF; text-align: center; margin-top: 10px">收费规则</h3>
+        <el-collapse accordion>
+          <el-collapse-item title="提前还车">
+            <div>按时租赁：提前还车不予退费</div>
+            <div>按天租赁：提前还车不予退费</div>
+            <div>按月租赁：提前还车，时间超过一天（≥24小时）按该车日租费用退费；不足24小时不予退费</div>
+          </el-collapse-item>
+          <el-collapse-item title="延期还车">
+            <div>所有租赁方式：超时部分按时计费，不足一小时算计一小时</div>
+            <div>备注：若延期超过5个工作日，我们会将您的信息上报公安机关依法处理</div>
+          </el-collapse-item>
+          <el-collapse-item title="遇故障">
+            <div>人为故障：故障时间正常计费</div>
+            <div>设备故障：故障时间不收取费用，还车后可在系统中申请退款</div>
+          </el-collapse-item>
+          <el-collapse-item title="超出运营区">
+            <div>若根据定位显示，您还车地点超出运营区，则额外收取200元调度费</div>
+          </el-collapse-item>
+        </el-collapse>
+        <h3 style="color: #409EFF; text-align: center; margin-top: 10px">其他规则</h3>
+        <el-collapse>
+          <el-collapse-item title="取消订单">
+            <div>任何订单在距离预定时间前1个小时不允许取消</div>
+          </el-collapse-item>
+          <el-collapse-item title="还车地点">
+            <div>运营服务区内，任何符合非机动车停车的区域均可还车</div>
+            <div>若非法停车，造成任何后果，将由租赁人本人承担全部责任</div>
+          </el-collapse-item>
+        </el-collapse>
+      </el-main>
+      <el-footer>
+        <div style="color: #909399;font-size: 12px;margin-top: 20px">我们保证每辆车在您租赁前都将精心保养，服务至上！为您提供最优质的服务！</div>
       </el-footer>
     </el-container>
   </div>
@@ -44,7 +75,7 @@ export default {
         {id:4,idView:require("@/assets/bicycle_images/b09.jpg")},
         {id:5,idView:require("@/assets/bicycle_images/b10.jpg")}
       ]
-    };
+    }
   },
   methods: {
   }
