@@ -238,10 +238,16 @@ export const asyncRoutes = [
         hidden: true
       },
       {
-        path: 'queryOrder',
-        name: 'queryOrder',
-        component: () => import('@/views/user/userOrder/queryOrder'),
-        meta: { title: '查看订单', icon: 'el-icon-remove' }
+        path: 'queryOrderIng',
+        name: 'queryOrderIng',
+        component: () => import('@/views/user/userOrder/queryOrderIng'),
+        meta: { title: '当前订单', icon: 'el-icon-document' }
+      },
+      {
+        path: 'queryOrderEnd',
+        name: 'queryOrderEnd',
+        component: () => import('@/views/user/userOrder/queryOrderEnd'),
+        meta: { title: '历史订单', icon: 'el-icon-document-checked' }
       },
     ]
   },

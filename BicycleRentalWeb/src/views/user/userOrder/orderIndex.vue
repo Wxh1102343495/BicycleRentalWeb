@@ -136,8 +136,8 @@ export default {
             type: 'success'
           })
           this.$router.push({
-            name:'queryOrder',
-            path:'/userOrder/queryOrder',
+            name:'queryOrderIng',
+            path:'/userOrder/queryOrderIng',
           })
         } else {
           this.$message({
