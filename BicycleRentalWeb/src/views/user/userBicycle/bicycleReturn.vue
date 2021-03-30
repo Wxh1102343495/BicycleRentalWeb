@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>点击跳转到您的订单页进行还车。。。</span>
-    <el-button type="primary" @click="jumpOrderIng">主要按钮</el-button>
+    <el-button type="primary" @click="jumpOrderIng">跳转</el-button>
   </div>
 </template>
 
