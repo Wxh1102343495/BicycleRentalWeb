@@ -21,13 +21,9 @@
         <h3 style="color: #409EFF; text-align: center; margin-top: 10px">收费规则</h3>
         <el-collapse accordion>
           <el-collapse-item title="提前还车">
-            <div>按时租赁：提前还车不予退费</div>
-            <div>按天租赁：提前还车不予退费</div>
-            <div>按月租赁：提前还车，时间超过一天（≥24小时）按该车日租费用退费；不足24小时不予退费</div>
-          </el-collapse-item>
-          <el-collapse-item title="延期还车">
-            <div>所有租赁方式：超时部分按时计费，不足一小时算计一小时</div>
-            <div>备注：若延期超过5个工作日，我们会将您的信息上报公安机关依法处理</div>
+            <div>按时租赁：租赁时长不足一小时按满一小时收费</div>
+            <div>按天租赁：租赁时长不足24小时按满一天计费，超出24小时但不满足整日的余出部分按时计费</div>
+            <div>按月租赁：租赁时长不足3天按满一个月计费，超出30天但不满足整月的余出部分按天计费</div>
           </el-collapse-item>
           <el-collapse-item title="遇故障">
             <div>人为故障：故障时间正常计费</div>

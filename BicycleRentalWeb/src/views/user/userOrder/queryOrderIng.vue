@@ -7,7 +7,7 @@
       border
     >
       <vxe-table-column field="bicycle.bicycleName" title="自行车名字" width="150px"></vxe-table-column>
-      <vxe-table-column title="取车点位置" width="370px">
+      <vxe-table-column title="取车点位置" width="300px">
         <template #default="{ row }">
           <span>{{ row.location.province + row.location.city + row.location.area + row.location.locationInfo }}</span>
         </template>
@@ -18,7 +18,7 @@
         </template>
       </vxe-table-column>
       <vxe-table-column field="rentMode" title="租赁方式" width="80px"></vxe-table-column>
-      <vxe-table-column field="bicycle.state" title="计费方式" width="90px"></vxe-table-column>
+      <vxe-table-column field="remark" title="计费方式" width="90px"></vxe-table-column>
       <vxe-table-column field="startTime" title="租赁时间" width="150px"></vxe-table-column>
       <vxe-table-column title="订单操作">
         <template #default="{ row }">
@@ -36,12 +36,12 @@
         :visible.sync="innerVisible"
         append-to-body
       >
-        <el-form :model="form" :rules="rules" ref="ruleForm">
-          <el-form-item label="取消原因" prop="desc">
+        <el-form :model="form">
+          <el-form-item label="取消原因">
             <el-input type="textarea" v-model="form.desc"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit('ruleForm')">确定</el-button>
+            <el-button type="primary" @click="onSubmit">确定</el-button>
             <el-button @click="innerVisible = false;outerVisible = false">取消</el-button>
           </el-form-item>
         </el-form>
@@ -72,7 +72,7 @@
           <el-form-item label="整体评价">
             <el-rate v-model="returnForm.value4" style="margin-top: 10px"></el-rate>
           </el-form-item>
-          <el-form-item label="订单评价" prop="desc">
+          <el-form-item label="订单评价" prop="evaluation">
             <el-input type="textarea" v-model="returnForm.evaluation"></el-input>
           </el-form-item>
           <el-form-item>
@@ -112,7 +112,7 @@ export default {
       //用于点击还车按钮保存当前自行车信息
       returnForm: {},
       rules: {
-        desc: [
+        evaluation: [
           { required: true, message: '必须填写', trigger: 'blur' }
         ]
       }
@@ -138,15 +138,15 @@ export default {
           response.data.data.forEach((item, index) => {
             if (item.rentMode === 'h') {
               item.rentMode = '时租'
-              item.bicycle.state = item.bicycle.hourRent + ' 元/小时'
+              item.remark = item.bicycle.hourRent + ' 元/小时'
             }
             if (item.rentMode === 'd') {
               item.rentMode = '日租'
-              item.bicycle.state = item.bicycle.dayRent + ' 元/天'
+              item.remark = item.bicycle.dayRent + ' 元/天'
             }
             if (item.rentMode === 'm') {
               item.rentMode = '月租'
-              item.bicycle.state = item.bicycle.monthRent + ' 元/月'
+              item.remark = item.bicycle.monthRent + ' 元/月'
             }
           })
           //将返回结果赋值给页面变量
@@ -188,42 +188,52 @@ export default {
       }
     },
     //取消弹窗确定取消按钮
-    onSubmit(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          axios({
-            url: 'http://localhost:9001/order/removeOrder',
-            method: 'POST',
-            data: {
-              orderId: this.form.orderId
-            }
-          }).then(response => {
-            if (response.data.code === 20000) {
-              this.$message({
-                message: '成功!',
-                type: 'success'
-              })
-            } else {
-              return null
-            }
-          })
-          this.innerVisible = false
-          this.outerVisible = false
-          this.finOrderIngList()
-        } else {
-          return false;
+    onSubmit() {
+      axios({
+        url: 'http://localhost:9001/order/removeOrder',
+        method: 'POST',
+        data: {
+          orderId: this.form.orderId
         }
-      });
+      }).then(response => {
+        if (response.data.code === 20000) {
+          this.$message({
+            message: '成功!',
+            type: 'success'
+          })
+        } else {
+          return null
+        }
+      })
+      this.innerVisible = false
+      this.outerVisible = false
+      this.finOrderIngList()
     },
     //还车弹窗确定按钮
     returnSubmit(formName) {
+      console.log(this.returnForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          axios({
+            url: 'http://localhost:9001/order/finishOrder',
+            method: 'POST',
+            data: this.returnForm
+          }).then(response => {
+            console.log(response)
+            if(response.data.code === 20000) {
+              this.$message({
+                message: '还车成功!',
+                type: 'success'
+              })
+            }
+          })
         } else {
-          return false;
+          return false
         }
-      });
+        this.innerReturn = false
+        this.outReturn = false
+        this.finOrderIngList()
+      })
     }
   }
 }
