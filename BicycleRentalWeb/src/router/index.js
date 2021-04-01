@@ -67,6 +67,19 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
+
+  {
+    path: '/pay',
+    component: Layout,
+    redirect: 'noRedirect',
+    children: [{
+      path: 'payIndex',
+      name: 'payIndex',
+      hidden: false,
+      component: () => import('@/views/pay/payIndex'),
+      meta: { title: '支付', icon: 'dashboard' }
+    }]
+  },
 ]
 
 // 需要权限的路由表

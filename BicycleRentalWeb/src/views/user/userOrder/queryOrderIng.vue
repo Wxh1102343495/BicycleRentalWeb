@@ -221,9 +221,9 @@ export default {
           }).then(response => {
             console.log(response)
             if(response.data.code === 20000) {
-              this.$message({
-                message: '还车成功!',
-                type: 'success'
+              this.$router.push({
+                name:'payIndex',
+                path:'/pay/payIndex',
               })
             }
           })
