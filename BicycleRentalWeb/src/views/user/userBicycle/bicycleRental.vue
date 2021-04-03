@@ -55,9 +55,16 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'bicycleRental',
+  // 获取登录信息中用户名
+  computed: {
+    ...mapGetters([
+      'name'
+    ])
+  },
   data() {
     return {
       bicycleList: [],
@@ -105,11 +112,31 @@ export default {
     },
     //下单按钮
     onSubmit() {
-      // 将自行车编码通过路由方式传递到订单页
-      this.$router.push({
-        name:'orderIndex',
-        path:'/userOrder/orderIndex',
-        params:{form:this.form}
+      //判断是否有未支付的订单若没有才可以下单
+      axios({
+        url: 'http://localhost:9001/order/findOrderNeedPay',
+        method: 'GET',
+        params: {
+          username: this.name
+        }
+      }).then(response => {
+        if (response.data.data === '') {
+          // 将自行车编码通过路由方式传递到订单页
+          this.$router.push({
+            name:'orderIndex',
+            path:'/userOrder/orderIndex',
+            params:{form:this.form}
+          })
+        }else {
+          this.$message({
+            message: '您需要先支付!',
+            type: 'error'
+          });
+          this.$router.push({
+            name: 'payIndex',
+            path: '/payIndex'
+          })
+        }
       })
     },
     // 取消按钮

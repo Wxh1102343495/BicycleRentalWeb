@@ -45,7 +45,7 @@ export const constantRoutes = [
     name: 'register',
     meta: {
       title: '注册',
-      icon: 'el-icon-user-solid',
+      icon: 'el-icon-user-solid'
     },
     hidden: true
   },
@@ -69,17 +69,17 @@ export const constantRoutes = [
   },
 
   {
-    path: '/pay',
+    path: '/paySuccess',
     component: Layout,
-    redirect: 'noRedirect',
+    redirect: '/paySuccess',
     children: [{
-      path: 'payIndex',
-      name: 'payIndex',
+      path: 'paySuccess',
+      name: 'paySuccess',
       hidden: true,
-      component: () => import('@/views/pay/payIndex'),
-      meta: { title: '支付', icon: 'dashboard' }
+      component: () => import('@/views/paySuccess/index'),
+      meta: { title: '支付成功' }
     }]
-  },
+  }
 ]
 
 // 需要权限的路由表
@@ -89,7 +89,7 @@ export const asyncRoutes = [
     component: Layout,
     name: 'Example',
     alwaysShow: true,
-    meta: { title: '个人中心', icon: 'el-icon-s-help',roles:['sys', 'user'] },
+    meta: { title: '个人中心', icon: 'el-icon-s-help', roles: ['sys', 'user'] },
     children: [
       {
         path: 'personInfo',
@@ -106,7 +106,7 @@ export const asyncRoutes = [
     path: '/user',
     component: Layout,
     name: 'user',
-    meta: { title: '用户管理', icon: 'el-icon-user',roles:['sys'] },
+    meta: { title: '用户管理', icon: 'el-icon-user', roles: ['sys'] },
     children: [
       {
         path: 'updateIdentity',
@@ -119,7 +119,7 @@ export const asyncRoutes = [
         name: 'queryUser',
         component: () => import('@/views/sys/user/queryUser'),
         meta: { title: '用户信息查询', icon: 'el-icon-zoom-in' }
-      },
+      }
     ]
   },
 
@@ -127,7 +127,7 @@ export const asyncRoutes = [
     path: '/bicycle',
     component: Layout,
     name: 'bicycle',
-    meta: { title: '自行车管理', icon: 'el-icon-bicycle',roles:['sys'] },
+    meta: { title: '自行车管理', icon: 'el-icon-bicycle', roles: ['sys'] },
     children: [
       {
         path: 'addBicycle',
@@ -146,7 +146,7 @@ export const asyncRoutes = [
         name: 'editBicycle',
         component: () => import('@/views/sys/bicycle/editBicycle'),
         meta: { title: '故障车维修', icon: 'el-icon-suitcase' }
-      },
+      }
     ]
   },
 
@@ -154,7 +154,7 @@ export const asyncRoutes = [
     path: '/location',
     component: Layout,
     name: 'location',
-    meta: { title: '租赁地址管理', icon: 'el-icon-location-information',roles:['sys'] },
+    meta: { title: '租赁地址管理', icon: 'el-icon-location-information', roles: ['sys'] },
     children: [
       {
         path: 'addLocation',
@@ -167,7 +167,7 @@ export const asyncRoutes = [
         name: 'removeLocation',
         component: () => import('@/views/sys/location/removeLocation'),
         meta: { title: '编辑地址', icon: 'el-icon-delete' }
-      },
+      }
     ]
   },
 
@@ -175,7 +175,7 @@ export const asyncRoutes = [
     path: '/coupon',
     component: Layout,
     name: 'coupon',
-    meta: { title: '优惠券管理', icon: 'el-icon-s-ticket',roles:['sys'] },
+    meta: { title: '优惠券管理', icon: 'el-icon-s-ticket', roles: ['sys'] },
     children: [
       {
         path: 'addCoupon',
@@ -188,7 +188,7 @@ export const asyncRoutes = [
         name: 'queryCoupon',
         component: () => import('@/views/sys/coupon/queryCoupon'),
         meta: { title: '管理优惠券', icon: 'el-icon-setting' }
-      },
+      }
     ]
   },
 
@@ -196,7 +196,7 @@ export const asyncRoutes = [
     path: '/problem',
     component: Layout,
     name: 'problem',
-    meta: { title: '问题处理', icon: 'el-icon-warning-outline',roles:['sys'] },
+    meta: { title: '问题处理', icon: 'el-icon-warning-outline', roles: ['sys'] },
     children: [
       {
         path: 'userComplaint',
@@ -209,7 +209,7 @@ export const asyncRoutes = [
         name: 'orderInfo',
         component: () => import('@/views/sys/problem/orderInfo'),
         meta: { title: '订单评价查询', icon: 'el-icon-tickets' }
-      },
+      }
     ]
   },
 
@@ -219,7 +219,7 @@ export const asyncRoutes = [
     path: '/bicycleRental',
     component: Layout,
     name: 'bicycleRental',
-    meta: { title: '自行车', icon: 'el-icon-bicycle',roles:['user'] },
+    meta: { title: '自行车', icon: 'el-icon-bicycle', roles: ['user'] },
     children: [
       {
         path: 'bicycleRental',
@@ -232,7 +232,7 @@ export const asyncRoutes = [
         name: 'bicycleReturn',
         component: () => import('@/views/user/userBicycle/bicycleReturn'),
         meta: { title: '还车', icon: 'el-icon-remove' }
-      },
+      }
     ]
   },
 
@@ -241,7 +241,7 @@ export const asyncRoutes = [
     component: Layout,
     name: 'bicycleRental',
     alwaysShow: true,
-    meta: { title: '订单', icon: 'el-icon-bicycle',roles:['user'] },
+    meta: { title: '订单', icon: 'el-icon-bicycle', roles: ['user'] },
     children: [
       {
         path: 'orderIndex',
@@ -254,7 +254,7 @@ export const asyncRoutes = [
         path: 'queryOrderIng',
         name: 'queryOrderIng',
         component: () => import('@/views/user/userOrder/queryOrderIng'),
-        meta: { title: '当前订单', icon: 'el-icon-document' }
+        meta: { title: '正在进行的订单', icon: 'el-icon-document' }
       },
       {
         path: 'queryOrderEnd',
@@ -262,6 +262,12 @@ export const asyncRoutes = [
         component: () => import('@/views/user/userOrder/queryOrderEnd'),
         meta: { title: '历史订单', icon: 'el-icon-document-checked' }
       },
+      {
+        path: 'payIndex',
+        name: 'payIndex',
+        component: () => import('@/views/user/userOrder/payIndex'),
+        meta: { title: '需要支付订单', icon: 'dashboard' }
+      }
     ]
   },
 

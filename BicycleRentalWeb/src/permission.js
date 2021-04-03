@@ -13,7 +13,7 @@ import getPageTitle from '@/utils/get-page-title'
 NProgress.configure({ showSpinner: false })
 
 //路由白名单列表，把路由添加到这个数组，不用登陆也可以访问
-const whiteList = ['/login', '/register']
+const whiteList = ['/login', '/register', '/paySuccess']
 
 // 路由守卫 全局钩子，每一次页面刷新都会执行
 router.beforeEach(async(to, from, next) => {

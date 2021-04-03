@@ -1,5 +1,5 @@
 <template>
-  <!--<h2>{{ name+'订单页'+this.form.bicycleCode }}</h2>-->
+<!--生成订单-->
   <div id="app">
     <el-card class="box-card">
       <div slot="header" class="clearfix">

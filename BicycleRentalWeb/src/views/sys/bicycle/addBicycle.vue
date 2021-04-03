@@ -5,19 +5,6 @@
       <el-form-item label="自行车名称">
         <el-input v-model="form.bicycleName"></el-input>
       </el-form-item>
-<!--      <el-form-item label="所在停车点">-->
-<!--        <div class="block">-->
-<!--          <el-select v-model="form.location" placeholder="请选择停车点" :clearable="true">-->
-<!--            <el-option-->
-<!--              v-for="item in location"-->
-<!--              :key="item.id"-->
-<!--              :label="item.province + item.area + item.city + item.locationInfo"-->
-<!--              :value="item.id"-->
-<!--            >-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--        </div>-->
-<!--      </el-form-item>-->
       <el-form-item label="自行车照片">
         <el-upload
           class="upload-demo"

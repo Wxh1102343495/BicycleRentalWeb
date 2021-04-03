@@ -53,7 +53,7 @@
     </el-dialog>
 
     <!--确认还车弹窗-->
-    <el-dialog title="确定要还车么？" :visible.sync="outReturn" :modal="false">
+    <el-dialog :title="diaoTitel" :visible.sync="outReturn" :modal="false">
       <el-dialog
         width="40%"
         :visible.sync="innerReturn"
@@ -71,6 +71,19 @@
           </el-form-item>
           <el-form-item label="整体评价">
             <el-rate v-model="returnForm.value4" style="margin-top: 10px"></el-rate>
+          </el-form-item>
+          <el-form-item label="优惠券使用">
+            <div class="block">
+              <el-select v-model="returnForm.couponId" placeholder="请选择可以使用的优惠券" :clearable="true">
+                <el-option
+                  v-for="item in coupon"
+                  :key="item.couponId"
+                  :label="item.coupon.couponName +'   ['+ item.coupon.discount+'折]' "
+                  :value="item.couponId"
+                >
+                </el-option>
+              </el-select>
+            </div>
           </el-form-item>
           <el-form-item label="订单评价" prop="evaluation">
             <el-input type="textarea" v-model="returnForm.evaluation"></el-input>
@@ -105,6 +118,8 @@ export default {
     return {
       tableData: [],
       form: {},
+      //弹窗标题
+      diaoTitel: '',
       outerVisible: false,
       innerVisible: false,
       outReturn: false,
@@ -115,18 +130,21 @@ export default {
         evaluation: [
           { required: true, message: '必须填写', trigger: 'blur' }
         ]
-      }
+      },
+      //用于存放优惠券信息
+      coupon: [],
     }
   },
   created() {
     // 初始化 查询正在进行订单信息
     this.finOrderIngList()
+    this.finCouponList()
   },
   methods: {
     //查询正在进行订单信息
     finOrderIngList() {
       axios({
-        url: 'http://localhost:9001/order/queryUserOrderIng',
+        url: 'http://localhost:9001/order/queryUserOrderByUserAndState',
         method: 'GET',
         params: {
           state: 1,
@@ -157,6 +175,18 @@ export default {
       })
     },
 
+    //查询当前用户优惠券信息
+    finCouponList() {
+      axios({
+        url: 'http://localhost:9001/userCoupon/findCouponByUsername',
+        method: 'GET',
+        params: {
+          username: this.name
+        }
+      }).then(response => {
+        this.coupon = response.data.data
+      })
+    },
     //点击还车按钮
     returnBicycle(row) {
       //还车 只要当前时间大于预定时间便可还车
@@ -167,8 +197,23 @@ export default {
           duration: 3000
         })
       } else {
-        this.returnForm = row
-        this.outReturn = true
+        //判断自行车位置并提示
+        axios({
+          url: 'http://localhost:9001/fixed/findFixed',
+          method: 'GET'
+        }).then(response => {
+          //若超出运营区
+          if(response.data.data === 0) {
+            this.diaoTitel = "您的停车点在运营区外，若在此还车则需要额外支付200元调度费，您确定还车么？"
+            row.rent = 200
+            this.returnForm = row
+            this.outReturn = true
+          }else {
+            this.diaoTitel = "您确定还车么？"
+            this.returnForm = row
+            this.outReturn = true
+          }
+        })
       }
     },
     //点击取消按钮
@@ -211,19 +256,18 @@ export default {
     },
     //还车弹窗确定按钮
     returnSubmit(formName) {
-      console.log(this.returnForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           axios({
             url: 'http://localhost:9001/order/finishOrder',
             method: 'POST',
-            data: this.returnForm
+            data: this.returnForm,
           }).then(response => {
             console.log(response)
-            if(response.data.code === 20000) {
+            if (response.data.code === 20000) {
               this.$router.push({
-                name:'payIndex',
-                path:'/pay/payIndex',
+                name: 'payIndex',
+                path: '/pay/payIndex'
               })
             }
           })
