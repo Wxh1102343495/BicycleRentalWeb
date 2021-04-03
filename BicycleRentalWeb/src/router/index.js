@@ -75,7 +75,7 @@ export const constantRoutes = [
     children: [{
       path: 'payIndex',
       name: 'payIndex',
-      hidden: false,
+      hidden: true,
       component: () => import('@/views/pay/payIndex'),
       meta: { title: '支付', icon: 'dashboard' }
     }]

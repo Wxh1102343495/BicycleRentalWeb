@@ -5,7 +5,7 @@
         <span>支付</span>
       </div>
       <div class="aaa" style="margin: 10px 50px">
-        <form :model="form" label-width="85px" action="http://localhost:9001/aliPay" method="post"  target="_blank">
+        <form :model="form" label-width="85px" action="http://localhost:9001/aliPay" method="post"  >
           <span>订单号:</span>
           <el-input v-model="form.orderId" name="out_trade_no"></el-input>
           <br/>
