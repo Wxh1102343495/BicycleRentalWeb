@@ -61,6 +61,8 @@ export default {
     return {
       passwordType: 'password',
       form: {},
+      uname: '',
+      pwd: '',
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -101,6 +103,9 @@ export default {
           this.form = response.data.data
           // 一部分数存于session用于对比数据是否发生变化
           sessionStorage.setItem("initForm",JSON.stringify(response.data.data))
+          //存起来判断用户名和密码是否改变
+          this.uname = response.data.data.username
+          this.pwd = response.data.data.password
         } else {
           this.$message({
             message: '查询用户失败!',
@@ -118,24 +123,50 @@ export default {
           type: 'error'
         })
       }else{
-        axios({
-          url: 'http://localhost:9001/user/updateUser',
-          method: 'POST',
-          data: this.form
-        }).then(response => {
-          if (response.data.code === 20000) {
-            this.$message({
-              message: '更新成功!',
-              type: 'success'
-            })
-            this.$router.replace({path: '/'})
-          } else {
-            this.$message({
-              message: '保存失败!',
-              type: 'error'
-            })
-          }
-        })
+        //判断用户名或者密码是否有改动
+        if(this.uname != this.form.username || this.pwd != this.form.password) {
+          axios({
+            url: 'http://localhost:9001/user/updateUser',
+            method: 'POST',
+            data: this.form
+          }).then(response => {
+            if (response.data.code === 20000) {
+              this.$message({
+                message: '更新成功!',
+                type: 'success'
+              })
+              this.$store.dispatch('user/resetToken')
+              this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+            } else {
+              this.$message({
+                message: '保存失败!',
+                type: 'error'
+              })
+            }
+          })
+        } else {
+          axios({
+            url: 'http://localhost:9001/user/updateUser',
+            method: 'POST',
+            data: this.form
+          }).then(response => {
+            if (response.data.code === 20000) {
+              this.$message({
+                message: '更新成功!',
+                type: 'success'
+              })
+              this.$router.push({
+                name: 'Dashboard',
+                path: '/dashboard'
+              })
+            } else {
+              this.$message({
+                message: '保存失败!',
+                type: 'error'
+              })
+            }
+          })
+        }
       }
     },
     onReturn() {
