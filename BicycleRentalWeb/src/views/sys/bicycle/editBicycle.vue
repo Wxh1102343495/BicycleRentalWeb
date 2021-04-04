@@ -11,9 +11,9 @@
           <span>{{row.bicycle.bicycleCode}}</span>
         </template>
       </vxe-table-column>
-      <vxe-table-column title="所在停车点">
+      <vxe-table-column title="所在位置">
         <template #default="{ row }">
-          <span>{{row.location.province+row.location.city+row.location.area+row.location.locationInfo}}</span>
+          <span>{{row.location}}</span>
         </template>
       </vxe-table-column>
       <vxe-table-column field="bicycleName" title="自行车名字" width="120px">
@@ -21,14 +21,19 @@
           <span>{{row.bicycle.bicycleName}}</span>
         </template>
       </vxe-table-column>
-      <vxe-table-column title="照片">
+      <vxe-table-column title="故障照片">
         <template #default="{ row }">
-          <img :src="row.bicycle.photo" style="display: block;width: 150px;height: 80px;">
+          <img :src="row.photoOne" style="display: block;width: 150px;height: 80px;">
+        </template>
+      </vxe-table-column>
+      <vxe-table-column title="故障照片">
+        <template #default="{ row }">
+          <img :src="row.photoTwo" style="display: block;width: 150px;height: 80px;">
         </template>
       </vxe-table-column>
       <vxe-table-column title="故障上报人姓名" width="100px">
         <template #default="{ row }">
-          <span>{{row.user.username}}</span>
+          <span>{{row.user.name}}</span>
         </template>
       </vxe-table-column>
       <vxe-table-column title="故障上报人电话" width="110px">
