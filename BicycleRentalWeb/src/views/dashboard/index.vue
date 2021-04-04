@@ -35,6 +35,9 @@
         </el-collapse>
         <h3 style="color: #409EFF; text-align: center; margin-top: 10px">其他规则</h3>
         <el-collapse>
+          <el-collapse-item title="优惠券购买">
+            <div>同一用户，同一优惠券只允许购买一张</div>
+          </el-collapse-item>
           <el-collapse-item title="取消订单">
             <div>任何订单在距离预定时间前1个小时不允许取消</div>
           </el-collapse-item>

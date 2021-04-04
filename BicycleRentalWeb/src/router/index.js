@@ -242,7 +242,7 @@ export const asyncRoutes = [
     component: Layout,
     name: 'bicycleRental',
     alwaysShow: true,
-    meta: { title: '订单', icon: 'el-icon-bicycle', roles: ['user'] },
+    meta: { title: '订单', icon: 'el-icon-s-order', roles: ['user'] },
     children: [
       {
         path: 'orderIndex',
@@ -255,19 +255,61 @@ export const asyncRoutes = [
         path: 'queryOrderIng',
         name: 'queryOrderIng',
         component: () => import('@/views/user/userOrder/queryOrderIng'),
-        meta: { title: '正在进行的订单', icon: 'el-icon-document' }
+        meta: { title: '正在进行的订单', icon: 'el-icon-tickets' }
       },
       {
         path: 'queryOrderEnd',
         name: 'queryOrderEnd',
         component: () => import('@/views/user/userOrder/queryOrderEnd'),
-        meta: { title: '历史订单', icon: 'el-icon-document-checked' }
+        meta: { title: '历史订单', icon: 'el-icon-s-claim' }
       },
       {
         path: 'payIndex',
         name: 'payIndex',
         component: () => import('@/views/user/userOrder/payIndex'),
-        meta: { title: '需要支付订单', icon: 'dashboard' }
+        meta: { title: '需要支付订单', icon: 'el-icon-s-release' }
+      }
+    ]
+  },
+
+  {
+    path: '/couponPackage',
+    component: Layout,
+    name: 'couponPackage',
+    meta: { title: '优惠券', icon: 'el-icon-s-ticket', roles: ['user'] },
+    children: [
+      {
+        path: 'buyCoupon',
+        name: 'buyCoupon',
+        component: () => import('@/views/user/userCoupon/buyCoupon'),
+        meta: { title: '优惠券市场', icon: 'el-icon-s-shop' }
+      },
+      {
+        path: 'myCoupon',
+        name: 'myCoupon',
+        component: () => import('@/views/user/userCoupon/myCoupon'),
+        meta: { title: '我的钱包', icon: 'el-icon-s-finance' }
+      }
+    ]
+  },
+
+  {
+    path: '/userProblem',
+    component: Layout,
+    name: 'userProblem',
+    meta: { title: '问题中心', icon: 'el-icon-warning', roles: ['user'] },
+    children: [
+      {
+        path: 'bicycleError',
+        name: 'bicycleError',
+        component: () => import('@/views/user/userPorblem/bicycleError'),
+        meta: { title: '自行车故障', icon: 'el-icon-bicycle' }
+      },
+      {
+        path: 'UserComplaints',
+        name: 'UserComplaints',
+        component: () => import('@/views/user/userPorblem/UserComplaints'),
+        meta: { title: '意见投诉', icon: 'el-icon-notebook-2' }
       }
     ]
   },

@@ -94,7 +94,6 @@ export default {
     detial(e) {
       // 获取当前点击自行车id
       var id = e.currentTarget.getAttribute('id')
-      console.log(id)
       axios({
         url: 'http://localhost:9001/bicycle/findByCode',
         method: 'POST',
