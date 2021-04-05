@@ -72,13 +72,24 @@ export const constantRoutes = [
   {
     path: '/paySuccess',
     component: Layout,
-    redirect: '/paySuccess',
     children: [{
       path: 'paySuccess',
       name: 'paySuccess',
       hidden: true,
       component: () => import('@/views/paySuccess/index'),
       meta: { title: '支付成功' }
+    }]
+  },
+
+  {
+    path: '/returnPaySuccess',
+    component: Layout,
+    children: [{
+      path: 'returnPaySuccess',
+      name: 'returnPaySuccess',
+      hidden: true,
+      component: () => import('@/views/returnPaySuccess/index'),
+      meta: { title: '退款成功' }
     }]
   }
 ]
@@ -203,13 +214,19 @@ export const asyncRoutes = [
         path: 'userComplaint',
         name: 'userComplaint',
         component: () => import('@/views/sys/problem/userComplaint'),
-        meta: { title: '用户投诉处理', icon: 'el-icon-bell' }
+        meta: { title: '用户投诉', icon: 'el-icon-bell' }
       },
       {
         path: 'orderInfo',
         name: 'orderInfo',
         component: () => import('@/views/sys/problem/orderInfo'),
-        meta: { title: '订单评价查询', icon: 'el-icon-tickets' }
+        meta: { title: '订单评价', icon: 'el-icon-tickets' }
+      },
+      {
+        path: 'needReturnPay',
+        name: 'needReturnPay',
+        component: () => import('@/views/sys/problem/needReturnPay'),
+        meta: { title: '申请退款处理', icon: 'el-icon-refresh-right' }
       }
     ]
   },

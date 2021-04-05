@@ -27,20 +27,31 @@
       <vxe-table-column field="rent" title="总租金" width="60px"></vxe-table-column>
       <vxe-table-column title="订单操作" width="90px">
         <template #default="{ row }">
-          <el-button type="text" @click="returnBicycle(row)">联系客服</el-button>
+          <el-button type="text" @click="returnBicycle(row)">申请退款</el-button>
         </template>
       </vxe-table-column>
     </vxe-table>
 
     <!--联系客服弹窗-->
       <el-dialog width="30%" title="客服中心" :visible.sync="outerVisible" append-to-body>
+        <span>在您退款之前请先联系我们的客服</span><br/>
         <span>客服电话：18139608032</span><br/>
         <span>请在工作日工作时间内拨打电话</span>
         <div slot="footer" class="dialog-footer">
           <el-button @click="outerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="outerVisible = false">确定</el-button>
+          <el-button type="primary" @click="innerVisible = true">确定</el-button>
         </div>
       </el-dialog>
+
+    <!--退款信息填写弹窗-->
+    <el-dialog width="30%" title="退款申请" :visible.sync="innerVisible" append-to-body>
+      <span>退款原因：</span><br/>
+      <el-input v-model="input" type="textarea" placeholder="请输入内容"></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="innerVisible = false">取 消</el-button>
+        <el-button type="primary" @click="returnPay">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -59,7 +70,10 @@ export default {
   data() {
     return {
       tableData:[],
+      input:'',
+      orderId: '',
       outerVisible: false,
+      innerVisible: false,
     }
   },
   created() {
@@ -105,9 +119,36 @@ export default {
         }
       })
     },
-
-    returnBicycle() {
-      this.outerVisible = true
+    returnBicycle(row) {
+      if(row.stateReturnPay === 0) {
+        this.orderId = row.orderId
+        this.outerVisible = true
+      }else {
+        this.$message({
+          message: '您已经申请过了',
+          type: 'success'
+        });
+      }
+    },
+    //申请退款操作
+    returnPay() {
+      axios({
+        url: 'http://localhost:9001/order/needReturnPay',
+        method: 'POST',
+        data: {
+          returnPayCause: this.input,
+          orderId: this.orderId
+        }
+      }).then(response => {
+        if (response.data.code === 20000) {
+          this.$message({
+            message: '上报成功，我们将尽快给您处理',
+            type: 'success'
+          });
+        }
+        this.innerVisible = false
+        this.outerVisible = false
+      })
     }
   }
 }

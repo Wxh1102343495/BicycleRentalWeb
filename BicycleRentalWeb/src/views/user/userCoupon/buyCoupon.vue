@@ -48,6 +48,9 @@
     <!-- 支付页面弹窗-->
     <el-dialog title="支付" :visible.sync="innerVisible" :append-to-body="true">
       <form class="buy" :model="form" label-width="95px" action="http://localhost:9001/aliPay" method="post">
+        <span>编号:</span>
+        <el-input v-model="userId" name="userId"></el-input>
+        <br/>
         <span>订单号:</span>
         <el-input v-model="form.couponId" name="out_trade_no"></el-input>
         <br/>
@@ -92,14 +95,30 @@ export default {
         discount: '',
         price: ''
       },
+      userId: '',
       couponList: [],
       innerVisible: false
     }
   },
   created() {
     this.findCouponList()
+    this.findUserId()
   },
   methods: {
+    //根据用户名获取用户id，将id放入form便于后端生成订单使用
+    findUserId() {
+      axios({
+        url: 'http://localhost:9001/user/queryUserByUserName',
+        method: 'GET',
+        params:{
+          username: this.name
+        }
+      }).then(response => {
+        if (response.data.code === 20000) {
+          this.userId = response.data.data.id
+        }
+      })
+    },
     findCouponList() {
       axios({
         url: 'http://localhost:9001/coupon/findAll',
