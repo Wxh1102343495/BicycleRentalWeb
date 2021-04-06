@@ -7,24 +7,24 @@
       border
     >
       <vxe-table-column field="bicycle.bicycleName" title="自行车名字" width="80px"></vxe-table-column>
-      <vxe-table-column title="取车点位置" width="280px">
+      <vxe-table-column title="取车点位置" width="200px">
         <template #default="{ row }">
           <span>{{ row.location.province + row.location.city + row.location.area + row.location.locationInfo }}</span>
         </template>
       </vxe-table-column>
-      <vxe-table-column title="照片">
+      <vxe-table-column title="照片" width="150px">
         <template #default="{ row }">
           <img :src="row.bicycle.photo" style="display: block;width: 130px;height: 80px;">
         </template>
       </vxe-table-column>
-      <vxe-table-column field="rentMode" title="租赁方式" width="80px"></vxe-table-column>
+      <vxe-table-column field="rentMode" title="租赁方式" width="60px"></vxe-table-column>
       <vxe-table-column field="remark" title="计费方式" width="80px"></vxe-table-column>
       <vxe-table-column field="startTime" title="租赁时间" width="148px"></vxe-table-column>
       <vxe-table-column field="endTime" title="还车时间" width="148px"></vxe-table-column>
-      <vxe-table-column field="coupon.couponName" title="使用的优惠券" width="90px"></vxe-table-column>
+      <vxe-table-column field="coupon.couponName" title="使用的优惠券" width="80px"></vxe-table-column>
       <vxe-table-column field="coupon.discount" title="优惠券折扣" width="70px"></vxe-table-column>
-      <vxe-table-column field="isMoreFixed" title="还车点是否超出运营区" width="50px"></vxe-table-column>
-      <vxe-table-column field="rent" title="总租金" width="60px"></vxe-table-column>
+      <vxe-table-column field="isMoreFixed" title="还车点是否超出运营区" width="60px"></vxe-table-column>
+      <vxe-table-column field="rent" title="总租金" width="70px"></vxe-table-column>
       <vxe-table-column title="订单操作" width="90px">
         <template #default="{ row }">
           <el-button type="text" @click="returnBicycle(row)">申请退款</el-button>
