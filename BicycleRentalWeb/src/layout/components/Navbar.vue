@@ -48,7 +48,9 @@ export default {
     async logout() {
       //使用清除session的方法注销登录
       await this.$store.dispatch('user/resetToken')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      //退出登录，再次登录会回到i之前操作的页面
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/login`)
       // await this.$store.dispatch('user/logout')
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
